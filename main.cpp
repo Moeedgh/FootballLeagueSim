@@ -1,4 +1,10 @@
 #include <iostream>
+#include <cstdlib>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <ctime>
+
 using namespace std;
 
 void mainMenu(void);
@@ -7,20 +13,39 @@ void playerManagement(void);
 void managersManagement(void);
 void matchSimulation(void);
 void reports(void);
+struct Team;
 
 struct Player
 {
     string name;
     int age;
-    int power;
-
+    int strength;
+    Team* team;
 };
 
-struct Team
-{
-    string teamName;
-    Player playerArray[11];
+struct Manager {
+    string name;
+    int yearsExperience;
+    Team* team;
 };
+
+struct Team {
+    string name;
+    Manager coach;
+    vector<Player> players;
+    int wins = 0;
+    int losses = 0;
+    int points = 0;
+};
+
+struct MatchResult {
+    Team* team1;
+    Team* team2;
+    Team* winner;
+};
+
+vector<Team> teams;
+vector<MatchResult> matchResults;
 
 int main(){
     mainMenu();
@@ -29,6 +54,7 @@ int main(){
 }
 
 void mainMenu(void){
+    system("cls");
     cout<<"===== Football League Management ====="<<endl
     <<"1. Manage Teams"<<endl
     <<"2. Manage Players"<<endl
@@ -67,6 +93,7 @@ void mainMenu(void){
 }
 
 void teamManagement(void){
+    system("cls");
     cout<<"===== Team Management =====\n"
     <<"1. Add a New Team\n"
     <<"2. Edit an Existing Team\n"
@@ -81,6 +108,7 @@ void teamManagement(void){
 }
 
 void playerManagement(void){
+    system("cls");
     cout<<"===== Player Management =====\n"
     <<"1. Add a New Player\n"
     <<"2. Edit Player Information\n"
@@ -94,6 +122,7 @@ void playerManagement(void){
 }
 
 void managersManagement(void){
+    system("cls");
     cout<<"===== manager management =====\n"
     <<"1. add manager\n"
     <<"2. show manager information\n"
@@ -104,6 +133,7 @@ void managersManagement(void){
 }
 
 void matchSimulation(void){
+    system("cls");
     cout<<"===== Match Simulation =====\n"
     <<"1. Select Two Teams for a Match\n"
     <<"2. Back to Main Menu\n"
@@ -114,6 +144,7 @@ void matchSimulation(void){
 }
 
 void reports(void){
+    system("cls");
     cout<<"===== Reports =====\n"
     <<"1. View All Teams and Players\n"
     <<"2. View Match Results\n"
