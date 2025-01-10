@@ -8,14 +8,7 @@ void managersManagement(void);
 void matchSimulation(void);
 void reports(void);
 
-struct team
-{
-    string teamName;
-    player playerArray[11];
-};
-
-
-struct player
+struct Player
 {
     string name;
     int age;
@@ -23,6 +16,11 @@ struct player
 
 };
 
+struct Team
+{
+    string teamName;
+    Player playerArray[11];
+};
 
 int main(){
     mainMenu();
