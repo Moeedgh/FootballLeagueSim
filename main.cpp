@@ -227,6 +227,24 @@ void deletePlayer() {
     system("pause");
 }
 
+void match(){
+
+}
+void viewAllTeamsandPlayers(){
+
+}
+
+void viewMatchResults(){
+
+}
+
+void ViewLeagueStandings(){
+
+}
+
+
+
+
 void viewPlayers() {
     system("cls");
     cout << "===== View All Players in a Team =====\n";
@@ -347,8 +365,34 @@ void teamManagement(void){
     <<"4. View All Teams\n"
     <<"5. Back to Main Menu\n"
     <<"Enter your choice: ";
+    do{
     int n;
     cin>>n;
+
+    switch (n)
+    {
+    case 1:
+        addTeam();
+        teamManagement();
+        break;
+    case 2:
+        editTeam();
+        teamManagement();
+        break;
+    case 3:
+        deleteTeam();
+        teamManagement();
+        break;
+    case 4:
+        viewTeams();
+        teamManagement();
+        break;
+    case 5:
+        mainMenu();
+        break;
+    default:
+        cout<<"wrong number, please enter again: ";
+    }}while(true);
 
 
 }
@@ -363,8 +407,34 @@ void playerManagement(void){
     <<"5. Back to Main Menu\n"
     <<"Enter your choice: ";
 
+    do{
     int n;
     cin>>n;
+
+    switch (n)
+    {
+    case 1:
+        addPlayer();
+        playerManagement();
+        break;
+    case 2:
+        editPlayer();
+        playerManagement();
+        break;
+    case 3:
+        deletePlayer();
+        playerManagement();
+        break;
+    case 4:
+        viewPlayers();
+        playerManagement();
+        break;
+    case 5:
+        mainMenu();
+        break;
+    default:
+        cout<<"wrong number, please enter again: ";
+    }}while(true);
 }
 
 void managersManagement(void){
@@ -372,10 +442,29 @@ void managersManagement(void){
     cout<<"===== manager management =====\n"
     <<"1. add manager\n"
     <<"2. show manager information\n"
+    <<"3. Back to Main Menu\n"
     <<"Enter your choice: ";
 
+    do{
     int n;
     cin>>n;
+
+    switch (n)
+    {
+    case 1:
+        addManager();
+        managersManagement();
+        break;
+    case 2:
+        showManagerInfo();
+        managersManagement();
+        break;
+    case 3:
+        mainMenu();
+        break; 
+    default:
+        cout<<"wrong number, please enter again: ";
+    }}while(true);
 }
 
 void matchSimulation(void){
@@ -385,8 +474,21 @@ void matchSimulation(void){
     <<"2. Back to Main Menu\n"
     <<"Enter your choice: ";
 
+    do{
     int n;
     cin>>n;
+
+    switch (n)
+    {
+    case 1:
+        match();
+        matchSimulation();
+        break;
+    case 2:
+        mainMenu();
+    default:
+        cout<<"wrong number, please enter again: ";
+    }}while(true);
 }
 
 void reports(void){
@@ -398,8 +500,27 @@ void reports(void){
     <<"4. Back to Main Menu\n"
     <<"Enter your choice: ";
 
+    do{
     int n;
     cin>>n;
+
+    switch (n)
+    {
+    case 1:
+        viewAllTeamsandPlayers();
+        break;
+    case 2:
+        viewMatchResults();
+        break;
+    case 3:
+        ViewLeagueStandings();
+        break;
+    case 4:
+        mainMenu();
+        break;
+    default:
+        cout<<"wrong number, please enter again: ";
+    }}while(true);
 }
 
 int main(){
