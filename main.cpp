@@ -46,13 +46,8 @@ void addTeam() {
     cout << "===== Add a New Team =====\n";
     Team newTeam;
     cout << "Enter team name: ";
-    cin.ignore();
+    
     getline(cin, newTeam.name);
-    cout << "Enter coach name: ";
-    getline(cin, newTeam.coach.name);
-    cout << "Enter coach's years of experience: ";
-    getline(cin, newTeam.coach.yearsExperience);
-    newTeam.coach.team = &newTeam;
     teams.push_back(newTeam);
     cout << "Team added successfully!\n";
     system("pause");
@@ -62,13 +57,12 @@ void editTeam() {
     system("cls");
     cout << "===== Edit an Existing Team =====\n";
     cout << "Enter the team name to edit: ";
-    cin.ignore();
+    
     string teamName;
     getline(cin, teamName);
 
     for (auto& team : teams) {
         if (team.name == teamName) {
-            cout << "Editing team: " << team.name << "\n";
             cout << "Enter new team name (Press enter to keep current): ";
             string newName;
             getline(cin, newName);
@@ -100,10 +94,9 @@ void deleteTeam() {
     system("cls");
     cout << "===== Delete a Team =====\n";
     cout << "Enter the team name to delete: ";
-    cin.ignore();
+    
     string teamName;
     getline(cin, teamName);
-
     for (auto it = teams.begin(); it != teams.end(); ++it) {
         if (it->name == teamName) {
             teams.erase(it);
@@ -116,20 +109,14 @@ void deleteTeam() {
     system("pause");
 }
 
+
 void viewTeams() {
     system("cls");
     cout << "===== View All Teams =====\n";
     for (const auto& team : teams) {
         cout << "Team Name: " << team.name << "\n";
-        cout << "Coach Name: " << team.coach.name << "\n";
-        cout << "Coach's Years of Experience: " << team.coach.yearsExperience << "\n";
-        cout << "Wins: " << team.wins << ", Losses: " << team.losses << ", Points: " << team.points << "\n";
-        cout << "Players:\n";
-        for (const auto& player : team.players) {
-            cout << "  Name: " << player.name << ", Age: " << player.age << ", Strength: " << player.strength << "\n";
-        }
-        cout << "-------------------------\n";
     }
+    cout << "-------------------------\n";
     system("pause");
 }
 
@@ -137,7 +124,7 @@ void addPlayer() {
     system("cls");
     cout << "===== Add a New Player =====\n";
     cout << "Enter team name to add player to: ";
-    cin.ignore();
+    
     string teamName;
     getline(cin, teamName);
 
@@ -165,7 +152,7 @@ void editPlayer() {
     system("cls");
     cout << "===== Edit Player Information =====\n";
     cout << "Enter team name: ";
-    cin.ignore();
+    
     string teamName;
     getline(cin, teamName);
 
@@ -177,7 +164,6 @@ void editPlayer() {
 
             for (auto& player : team.players) {
                 if (player.name == playerName) {
-                    cout << "Editing player: " << player.name << "\n";
                     cout << "Enter new player name (Press enter to keep current): ";
                     string newName;
                     getline(cin, newName);
@@ -214,7 +200,7 @@ void deletePlayer() {
     system("cls");
     cout << "===== Delete a Player =====\n";
     cout << "Enter team name: ";
-    cin.ignore();
+    
     string teamName;
     getline(cin, teamName);
 
@@ -245,18 +231,21 @@ void viewPlayers() {
     system("cls");
     cout << "===== View All Players in a Team =====\n";
     cout << "Enter team name: ";
-    cin.ignore();
+    
     string teamName;
     getline(cin, teamName);
 
     for (const auto& team : teams) {
         if (team.name == teamName) {
-            cout << "Team Name: " << team.name << "\n";
-            cout << "Players:\n";
+            cout << "Players of " << team.name << ":\n";
+            int count = 1;
             for (const auto& player : team.players) {
-                cout << "  Name: " << player.name << ", Age: " << player.age << ", Strength: " << player.strength << "\n";
+                cout << count << ". " << player.name << "\n";
+                count++;
             }
-            cout << "-------------------------\n";
+            if (count == 1){
+                cout << "there are no players on this team!\n";
+            }
             system("pause");
             return;
         }
@@ -269,7 +258,7 @@ void addManager() {
     system("cls");
     cout << "===== Add a New Manager =====\n";
     cout << "Enter team name to add manager to: ";
-    cin.ignore();
+    
     string teamName;
     getline(cin, teamName);
 
@@ -289,65 +278,11 @@ void addManager() {
     system("pause");
 }
 
-void editManager() {
-    system("cls");
-    cout << "===== Edit Manager Information =====\n";
-    cout << "Enter team name: ";
-    cin.ignore();
-    string teamName;
-    getline(cin, teamName);
-
-    for (auto& team : teams) {
-        if (team.name == teamName) {
-            cout << "Editing manager for team: " << team.name << "\n";
-            cout << "Enter new manager name (Press enter to keep current): ";
-            string newName;
-            getline(cin, newName);
-            if (!newName.empty()) {
-                team.coach.name = newName;
-            }
-            cout << "Enter new manager's years of experience (Press enter to keep current): ";
-            string newYearsExperience;
-            getline(cin, newYearsExperience);
-            if (!newYearsExperience.empty()) {
-                team.coach.yearsExperience = newYearsExperience;
-            }
-            cout << "Manager updated successfully!\n";
-            system("pause");
-            return;
-        }
-    }
-    cout << "Team not found!\n";
-    system("pause");
-}
-
-void deleteManager() {
-    system("cls");
-    cout << "===== Delete Manager =====\n";
-    cout << "Enter team name: ";
-    cin.ignore();
-    string teamName;
-    getline(cin, teamName);
-
-    for (auto& team : teams) {
-        if (team.name == teamName) {
-            team.coach.name = "";
-            team.coach.yearsExperience = "";
-            team.coach.team = nullptr;
-            cout << "Manager deleted successfully!\n";
-            system("pause");
-            return;
-        }
-    }
-    cout << "Team not found!\n";
-    system("pause");
-}
-
 void showManagerInfo() {
     system("cls");
     cout << "===== Show Manager Information =====\n";
     cout << "Enter team name: ";
-    cin.ignore();
+    
     string teamName;
     getline(cin, teamName);
 
