@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <ctime>
+#include <algorithm>
 
 using namespace std;
 
@@ -33,9 +34,9 @@ struct Team {
 };
 
 struct MatchResult {
-    Team* team1;
-    Team* team2;
-    Team* winner;
+    string team1;
+    string team2;
+    string winner;
 };
 
 vector<Team> teams;
@@ -228,18 +229,109 @@ void deletePlayer() {
 }
 
 void match(){
+    string team1Name, team2Name;
+    cout << "Select Team 1: ";
+    cin >> team1Name;
+    cout << "Select Team 2: ";
+    cin >> team2Name;
+
+    Team *team1 = nullptr, *team2 = nullptr;
+    for (auto &team : teams) {
+        if (team.name == team1Name)
+            team1 = &team;
+    }
+    if(!team1){
+        cout<<team1Name<<" not found.";
+        return;
+    }
+    for (auto &team : teams) {
+        if (team.name == team2Name)
+            team2 = &team;
+    }
+    if(!team2){
+        cout<<team2Name<<" not found.\n";
+        return;
+    }
+    int avg1 = 0, avg2 = 0;
+    for (auto p : team1->players)
+        avg1 += p.strength;
+    for (auto p : team2->players)
+        avg2 += p.strength;
+
+    avg1 /= team1->players.size();
+    avg2 /= team2->players.size();
+
+    srand(time(0));
+    double chance1 = avg1 / (avg1+avg2);
+    double chance2 = 1-chance1;
+    double randomNum=(1+rand()%99)/100;
+
+    string winner = (chance1 >= randomNum) ? team1->name : team2->name;
+    cout << "Winner: " << winner << "\n";
+
+    matchResults.push_back({team1->name, team2->name, winner});
+    if (winner == team1->name) {
+        team1->wins++;
+        team1->points += 3;
+        team2->losses++;
+    } else {
+        team2->wins++;
+        team2->points += 3;
+        team1->losses++;
+    }
+    saveTeams();
 
 }
 void viewAllTeamsandPlayers(){
-
+    system("cls");
+    cout << "===== View All Teams and Players =====\n";
+    for (const auto& team : teams) {
+        cout << "Team Name: " << team.name << "\n";
+        cout << "Players:\n";
+        int i=1;
+        for (const auto& player : team.players) {
+            cout << i <<". " << player.name << "\n";
+            i++;
+        }
+        if(i==1){
+            cout<<"there are no players on this team!";
+        }
+        cout << "-------------------------\n";
+    }
+    system("pause");
 }
 
 void viewMatchResults(){
-
+    system("cls");
+    cout << "===== View Match Results =====\n";
+    for (const auto& result : matchResults) {
+        cout << "Match: " << result.team1 << " vs " << result.team2 << "\n";
+        cout << "Winner: " << result.winner << "\n";
+        cout << "-------------------------\n";
+    }
+    system("pause");
 }
 
 void ViewLeagueStandings(){
+    vector<Team> sortedTeams = teams;
+    for (size_t i = 0; i < sortedTeams.size() - 1; ++i) {
+        for (size_t j = 0; j < sortedTeams.size() - i - 1; ++j) {
+            if (sortedTeams[j].points < sortedTeams[j + 1].points) {
+                swap(sortedTeams[j], sortedTeams[j + 1]);
+            }
+        }
+    }
 
+    cout << "===== League Standings =====\n";
+    cout << "Rank\tTeam\tPoints\n";
+    int rank = 1;
+    for (const auto& team : sortedTeams) {
+        cout << rank << "\t" << team.name<<":" << "\t"<< team.wins<< " Wins,"
+        <<"\t"<< team.losses<< " Loses," << "\t" << team.points<<" Points" << "\n";
+        rank++;
+    }
+    cout << "-------------------------\n";
+    system("pause");
 }
 
 
@@ -315,6 +407,10 @@ void showManagerInfo() {
     }
     cout << "Team not found!\n";
     system("pause");
+}
+
+void saveTeams(){
+    
 }
 
 void mainMenu(void){
