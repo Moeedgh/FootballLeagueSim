@@ -65,6 +65,18 @@ void addTeam() {
 void editTeam() {
     system("cls");
     cout << "===== Edit an Existing Team =====\n";
+    cout << "===== list of Teams =====\n";
+    if (teams.empty()) {
+        cout << "No teams available!\n";
+        system("pause");
+        return;
+    }
+    int count=1;
+    for (const auto& team : teams) {
+        cout << count << ". " << team.name << "\n";
+        count++;
+    }
+    cout << "-------------------------\n";
     cout << "Enter the team name to edit: ";
     cin.ignore();
     string teamName;
@@ -121,6 +133,18 @@ void editTeam() {
 void deleteTeam() {
     system("cls");
     cout << "===== Delete a Team =====\n";
+    cout << "===== list of Teams =====\n";
+    if (teams.empty()) {
+        cout << "No teams available!\n";
+        system("pause");
+        return;
+    }
+    int count=1;
+    for (const auto& team : teams) {
+        cout << count << ". " << team.name << "\n";
+        count++;
+    }
+    cout << "-------------------------\n";
     cout << "Enter the team name to delete: ";
     cin.ignore();
     string teamName;
@@ -141,6 +165,11 @@ void deleteTeam() {
 void viewTeams() {
     system("cls");
     cout << "===== View All Teams =====\n";
+    if (teams.empty()) {
+        cout << "No teams available!\n";
+        system("pause");
+        return;
+    }
     for (const auto& team : teams) {
         cout << "Team Name: " << team.name << "\n";
     }
@@ -185,6 +214,18 @@ void addPlayer() {
 void editPlayer() {
     system("cls");
     cout << "===== Edit Player Information =====\n";
+    cout << "===== list of Teams =====\n";
+    if (teams.empty()) {
+        cout << "No teams available!\n";
+        system("pause");
+        return;
+    }
+    int count=1;
+    for (const auto& team : teams) {
+        cout << count << ". " << team.name << "\n";
+        count++;
+    }
+    cout << "-------------------------\n";
     cout << "Enter team name: ";
     cin.ignore();
     string teamName;
@@ -197,6 +238,13 @@ void editPlayer() {
                 system("pause");
                 return;
             }
+            cout << "Players of " << team.name << ":\n";
+            int count = 1;
+            for (const auto& player : team.players) {
+                cout << count << ". " << player.name << "\n";
+                count++;
+            }
+            cout << "-------------------------\n";
             cout << "Enter player name to edit: ";
             string playerName;
             getline(cin, playerName);
@@ -247,6 +295,18 @@ void editPlayer() {
 void deletePlayer() {
     system("cls");
     cout << "===== Delete a Player =====\n";
+    cout << "===== list of Teams =====\n";
+    if (teams.empty()) {
+        cout << "No teams available!\n";
+        system("pause");
+        return;
+    }
+    int count=1;
+    for (const auto& team : teams) {
+        cout << count << ". " << team.name << "\n";
+        count++;
+    }
+    cout << "-------------------------\n";
     cout << "Enter team name: ";
     cin.ignore();
     string teamName;
@@ -254,6 +314,13 @@ void deletePlayer() {
 
     for (auto& team : teams) {
         if (team.name == teamName) {
+            cout << "Players of " << team.name << ":\n";
+            int count = 1;
+            for (const auto& player : team.players) {
+                cout << count << ". " << player.name << "\n";
+                count++;
+            }
+            cout << "-------------------------\n";
             cout << "Enter player name to delete: ";
             string playerName;
             getline(cin, playerName);
@@ -367,6 +434,18 @@ void loadMatchResults() {
 
 void match(){
     string team1Name, team2Name;
+    cout << "===== list of Teams =====\n";
+    if (teams.empty()) {
+        cout << "No teams available!\n";
+        system("pause");
+        return;
+    }
+    int count=1;
+    for (const auto& team : teams) {
+        cout << count << ". " << team.name << "\n";
+        count++;
+    }
+    cout << "-------------------------\n";
     cout << "Select Team 1: ";
     cin >> team1Name;
     Team *team1 = nullptr, *team2 = nullptr;
