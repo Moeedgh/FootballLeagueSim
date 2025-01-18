@@ -192,7 +192,6 @@ void addPlayer() {
             getline(cin, newPlayer.name);
             cout << "Enter player age: ";
             cin >> newPlayer.age;
-            cout << "Enter player strength: ";
             do {
                 cout << "Enter player strength (0-100): ";
                 cin >> newPlayer.strength;
@@ -447,7 +446,7 @@ void match(){
     }
     cout << "-------------------------\n";
     cout << "Select Team 1: ";
-    cin >> team1Name;
+    getline(cin,team1Name);
     Team *team1 = nullptr, *team2 = nullptr;
     for (auto &team : teams) {
         if (team.name == team1Name)
@@ -469,7 +468,7 @@ void match(){
         return;
     }
     cout << "Select Team 2: ";
-    cin >> team2Name;
+    getline(cin,team2Name);
     for (auto &team : teams) {
         if (team.name == team2Name)
             team2 = &team;
