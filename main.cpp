@@ -49,6 +49,13 @@ void addTeam() {
     cout << "Enter team name: ";
     
     getline(cin, newTeam.name);
+    for (const auto& team : teams) {
+        if (team.name == newTeam.name) {
+            cout << "Team already exists!\n";
+            system("pause");
+            return;
+        }
+    }
     teams.push_back(newTeam);
     cout << "Team added successfully!\n";
     system("pause");
@@ -67,12 +74,34 @@ void editTeam() {
             cout << "Enter new team name (Press enter to keep current): ";
             string newName;
             getline(cin, newName);
+            if(!newName.empty()){
+            for (const auto& team : teams) {
+                if (team.name == newName) {
+                    cout << "This team name already exists!\n";
+                    system("pause");
+                    cout << "Enter new team name (Press enter to keep current): ";
+                    string newName;
+                    getline(cin, newName);
+                }
+            }
+            }
             if (!newName.empty()) {
                 team.name = newName;
             }
             cout << "Enter new coach name (Press enter to keep current): ";
             string newCoachName;
             getline(cin, newCoachName);
+            if (!newCoachName.empty()) {
+            for (const auto& team : teams) {
+                if (team.coach.name == newCoachName) {
+                    cout << "This coach name already exists!\n";
+                    system("pause");
+                    cout << "Enter new coach name (Press enter to keep current): ";
+                    string newCoachName;
+                    getline(cin, newCoachName);
+                }
+            }
+            }
             if (!newCoachName.empty()) {
                 team.coach.name = newCoachName;
             }
@@ -604,12 +633,15 @@ void reports(void){
     {
     case 1:
         viewAllTeamsandPlayers();
+        reports();
         break;
     case 2:
         viewMatchResults();
+        reports();
         break;
     case 3:
         ViewLeagueStandings();
+        reports();
         break;
     case 4:
         mainMenu();
