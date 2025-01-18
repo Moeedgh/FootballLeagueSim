@@ -445,7 +445,7 @@ void match(){
         count++;
     }
     cout << "-------------------------\n";
-    cout << "Select Team 1: ";
+    cout << "Enter first team name : ";
     getline(cin,team1Name);
     Team *team1 = nullptr, *team2 = nullptr;
     for (auto &team : teams) {
@@ -467,7 +467,7 @@ void match(){
         system("pause");
         return;
     }
-    cout << "Select Team 2: ";
+    cout << "Enter second team name : ";
     getline(cin,team2Name);
     for (auto &team : teams) {
         if (team.name == team2Name)
