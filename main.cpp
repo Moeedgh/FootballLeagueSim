@@ -47,7 +47,7 @@ void addTeam() {
     cout << "===== Add a New Team =====\n";
     Team newTeam;
     cout << "Enter team name: ";
-    
+    cin.ignore();
     getline(cin, newTeam.name);
     for (const auto& team : teams) {
         if (team.name == newTeam.name) {
@@ -65,7 +65,7 @@ void editTeam() {
     system("cls");
     cout << "===== Edit an Existing Team =====\n";
     cout << "Enter the team name to edit: ";
-    
+    cin.ignore();
     string teamName;
     getline(cin, teamName);
 
@@ -75,15 +75,14 @@ void editTeam() {
             string newName;
             getline(cin, newName);
             if(!newName.empty()){
-            for (const auto& team : teams) {
-                if (team.name == newName) {
-                    cout << "This team name already exists!\n";
-                    system("pause");
-                    cout << "Enter new team name (Press enter to keep current): ";
-                    string newName;
-                    getline(cin, newName);
+                for (const auto& team : teams) {
+                    if (team.name == newName) {
+                        cout << "This team name already exists!\n";
+                        system("pause");
+                        cout << "Enter new team name (Press enter to keep current): ";
+                        getline(cin, newName);
+                    }
                 }
-            }
             }
             if (!newName.empty()) {
                 team.name = newName;
@@ -92,15 +91,14 @@ void editTeam() {
             string newCoachName;
             getline(cin, newCoachName);
             if (!newCoachName.empty()) {
-            for (const auto& team : teams) {
-                if (team.coach.name == newCoachName) {
-                    cout << "This coach name already exists!\n";
-                    system("pause");
-                    cout << "Enter new coach name (Press enter to keep current): ";
-                    string newCoachName;
-                    getline(cin, newCoachName);
+                for (const auto& team : teams) {
+                    if (team.coach.name == newCoachName) {
+                        cout << "This coach name already exists!\n";
+                        system("pause");
+                        cout << "Enter new coach name (Press enter to keep current): ";
+                        getline(cin, newCoachName);
+                    }
                 }
-            }
             }
             if (!newCoachName.empty()) {
                 team.coach.name = newCoachName;
@@ -124,7 +122,7 @@ void deleteTeam() {
     system("cls");
     cout << "===== Delete a Team =====\n";
     cout << "Enter the team name to delete: ";
-    
+    cin.ignore();
     string teamName;
     getline(cin, teamName);
     for (auto it = teams.begin(); it != teams.end(); ++it) {
@@ -154,7 +152,7 @@ void addPlayer() {
     system("cls");
     cout << "===== Add a New Player =====\n";
     cout << "Enter team name to add player to: ";
-    
+    cin.ignore();
     string teamName;
     getline(cin, teamName);
 
@@ -182,7 +180,7 @@ void editPlayer() {
     system("cls");
     cout << "===== Edit Player Information =====\n";
     cout << "Enter team name: ";
-    
+    cin.ignore();
     string teamName;
     getline(cin, teamName);
 
@@ -230,7 +228,7 @@ void deletePlayer() {
     system("cls");
     cout << "===== Delete a Player =====\n";
     cout << "Enter team name: ";
-    
+    cin.ignore();
     string teamName;
     getline(cin, teamName);
 
@@ -255,6 +253,9 @@ void deletePlayer() {
     }
     cout << "Team not found!\n";
     system("pause");
+}
+void saveTeams(){
+    
 }
 
 void match(){
@@ -370,7 +371,7 @@ void viewPlayers() {
     system("cls");
     cout << "===== View All Players in a Team =====\n";
     cout << "Enter team name: ";
-    
+    cin.ignore();
     string teamName;
     getline(cin, teamName);
 
@@ -397,7 +398,7 @@ void addManager() {
     system("cls");
     cout << "===== Add a New Manager =====\n";
     cout << "Enter team name to add manager to: ";
-    
+    cin.ignore();
     string teamName;
     getline(cin, teamName);
 
@@ -421,7 +422,7 @@ void showManagerInfo() {
     system("cls");
     cout << "===== Show Manager Information =====\n";
     cout << "Enter team name: ";
-    
+    cin.ignore();
     string teamName;
     getline(cin, teamName);
 
@@ -438,49 +439,8 @@ void showManagerInfo() {
     system("pause");
 }
 
-void saveTeams(){
-    
-}
 
-void mainMenu(void){
-    system("cls");
-    cout<<"===== Football League Management ====="<<endl
-    <<"1. Manage Teams"<<endl
-    <<"2. Manage Players"<<endl
-    <<"3. Manage Managers"<<endl
-    <<"4. Simulate Match"<<endl
-    <<"5. View Reports"<<endl
-    <<"6. Exit"<<endl
-    <<"Enter your choice: ";
-
-    do{
-    int n;
-    cin>>n;
-
-    switch (n)
-    {
-    case 1:
-        teamManagement();
-        break;
-    case 2:
-        playerManagement();
-        break;
-    case 3:
-        managersManagement();
-        break;
-    case 4:
-        matchSimulation();
-        break;
-    case 5:
-        reports();
-        break;
-    case 6:
-        break;
-    default:
-        cout<<"wrong number, please enter again: ";
-    }}while(true);
-}
-
+void mainMenu();
 void teamManagement(void){
     system("cls");
     cout<<"===== Team Management =====\n"
@@ -650,7 +610,44 @@ void reports(void){
         cout<<"wrong number, please enter again: ";
     }}while(true);
 }
+void mainMenu(void){
+    system("cls");
+    cout<<"===== Football League Management ====="<<endl
+    <<"1. Manage Teams"<<endl
+    <<"2. Manage Players"<<endl
+    <<"3. Manage Managers"<<endl
+    <<"4. Simulate Match"<<endl
+    <<"5. View Reports"<<endl
+    <<"6. Exit"<<endl
+    <<"Enter your choice: ";
 
+    do{
+    int n;
+    cin>>n;
+
+    switch (n)
+    {
+    case 1:
+        teamManagement();
+        break;
+    case 2:
+        playerManagement();
+        break;
+    case 3:
+        managersManagement();
+        break;
+    case 4:
+        matchSimulation();
+        break;
+    case 5:
+        reports();
+        break;
+    case 6:
+        return;
+    default:
+        cout<<"wrong number, please enter again: ";
+    }}while(true);
+}
 int main(){
     mainMenu();
 
