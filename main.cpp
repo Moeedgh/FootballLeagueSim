@@ -454,7 +454,7 @@ void match(){
             team1 = &team;
     }
     if(!team1){
-        cout<<team1Name<<" not found.";
+        cout<<team1Name<<" not found.\n";
         system("pause");
         return;
     }
