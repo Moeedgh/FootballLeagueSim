@@ -5,6 +5,7 @@
 #include <string>
 #include <ctime>
 #include <algorithm>
+#include <iomanip>
 
 using namespace std;
 
@@ -53,7 +54,7 @@ void addTeam() {
         if (team.name == newTeam.name) {
             cout << "Team already exists!\n";
             system("pause");
-            return;
+            break;
         }
     }
     teams.push_back(newTeam);
@@ -71,6 +72,7 @@ void editTeam() {
 
     for (auto& team : teams) {
         if (team.name == teamName) {
+            cout<<"Team Name: "<<teamName<<endl;
             cout << "Enter new team name (Press enter to keep current): ";
             string newName;
             getline(cin, newName);
@@ -79,30 +81,28 @@ void editTeam() {
                     if (team.name == newName) {
                         cout << "This team name already exists!\n";
                         system("pause");
-                        cout << "Enter new team name (Press enter to keep current): ";
-                        getline(cin, newName);
+                        return;
                     }
+
                 }
             }
             if (!newName.empty()) {
                 team.name = newName;
             }
+            if (team.coach.name.empty()) {
+            cout << team.name << " does not have a manager.\n";
+            system("pause");
+            return;
+            }
+            cout<<"Coach Name: "<<team.coach.name<<endl;
             cout << "Enter new coach name (Press enter to keep current): ";
             string newCoachName;
             getline(cin, newCoachName);
-            if (!newCoachName.empty()) {
-                for (const auto& team : teams) {
-                    if (team.coach.name == newCoachName) {
-                        cout << "This coach name already exists!\n";
-                        system("pause");
-                        cout << "Enter new coach name (Press enter to keep current): ";
-                        getline(cin, newCoachName);
-                    }
-                }
-            }
+
             if (!newCoachName.empty()) {
                 team.coach.name = newCoachName;
             }
+            cout<<"coach's years of experience: "<<team.coach.yearsExperience<<endl;
             cout << "Enter new coach's years of experience (Press enter to keep current): ";
             string newYearsExperience;
             getline(cin, newYearsExperience);
@@ -164,7 +164,13 @@ void addPlayer() {
             cout << "Enter player age: ";
             cin >> newPlayer.age;
             cout << "Enter player strength: ";
-            cin >> newPlayer.strength;
+            do {
+                cout << "Enter player strength (0-100): ";
+                cin >> newPlayer.strength;
+                if (newPlayer.strength < 0 || newPlayer.strength > 100) {
+                    cout << "Invalid strength. Please enter a value between 0 and 100.\n";
+                }
+            } while (newPlayer.strength < 0 || newPlayer.strength > 100);
             newPlayer.team = &team;
             team.players.push_back(newPlayer);
             cout << "Player added successfully!\n";
@@ -186,30 +192,44 @@ void editPlayer() {
 
     for (auto& team : teams) {
         if (team.name == teamName) {
+            if (team.players.empty()) {
+                cout << team.name << " does not have any players.\n";
+                system("pause");
+                return;
+            }
             cout << "Enter player name to edit: ";
             string playerName;
             getline(cin, playerName);
 
             for (auto& player : team.players) {
                 if (player.name == playerName) {
+                    cout<<"Player Name: "<<playerName<<endl;
                     cout << "Enter new player name (Press enter to keep current): ";
                     string newName;
                     getline(cin, newName);
                     if (!newName.empty()) {
                         player.name = newName;
                     }
+                    cout<<"Player age: "<<player.age<<endl;
                     cout << "Enter new player age (Press enter to keep current): ";
                     string newAge;
                     getline(cin, newAge);
                     if (!newAge.empty()) {
                         player.age = stoi(newAge);
                     }
-                    cout << "Enter new player strength (Press enter to keep current): ";
+                    cout<<"Player strenghth: "<<player.strength<<endl;
                     string newStrength;
-                    getline(cin, newStrength);
-                    if (!newStrength.empty()) {
+                    do {
+                        cout << "Enter new player strength (0-100, Press enter to keep current): ";
+                        getline(cin, newStrength);
+                        if (newStrength.empty()) {
+                            break;
+                        }
                         player.strength = stoi(newStrength);
-                    }
+                        if (player.strength < 0 || player.strength > 100) {
+                            cout << "Invalid strength. Please enter a value between 0 and 100.\n";
+                        }
+                    } while (player.strength < 0 || player.strength > 100);
                     cout << "Player updated successfully!\n";
                     system("pause");
                     return;
@@ -254,17 +274,101 @@ void deletePlayer() {
     cout << "Team not found!\n";
     system("pause");
 }
-void saveTeams(){
-    
+void saveTeams() {
+    ofstream outFile("teams.txt");
+    if (!outFile) {
+        cout << "Error opening file for writing!\n";
+        return;
+    }
+
+    for (const auto& team : teams) {
+        outFile << team.name << "\n";
+        outFile << team.coach.name << "\n";
+        outFile << team.coach.yearsExperience << "\n";
+        outFile << team.wins << " " << team.losses << " " << team.points << "\n";
+        for (const auto& player : team.players) {
+            outFile << player.name << "\n";
+            outFile << player.age << "\n";
+            outFile << player.strength << "\n";
+        }
+        outFile << "-----\n";
+    }
+    outFile.close();
+}
+
+void loadTeams() {
+    ifstream inFile("teams.txt");
+    if (!inFile) {
+        cout << "Error opening file for reading!\n";
+        return;
+    }
+
+    teams.clear();
+    string line;
+    while (getline(inFile, line)) {
+        if (line == "-----") continue;
+
+        Team team;
+        team.name = line;
+        getline(inFile, team.coach.name);
+        getline(inFile, team.coach.yearsExperience);
+        inFile >> team.wins >> team.losses >> team.points;
+        inFile.ignore();
+
+        while (getline(inFile, line) && line != "-----") {
+            Player player;
+            player.name = line;
+            inFile >> player.age >> player.strength;
+            inFile.ignore();
+            player.team = &team;
+            team.players.push_back(player);
+        }
+        teams.push_back(team);
+    }
+    inFile.close();
+}
+
+void saveMatchResults() {
+    ofstream outFile("match_results.txt");
+    if (!outFile) {
+        cout << "Error opening file for writing!\n";
+        return;
+    }
+
+    for (const auto& result : matchResults) {
+        outFile << result.team1 << "\n";
+        outFile << result.team2 << "\n";
+        outFile << result.winner << "\n";
+        outFile << "-----\n";
+    }
+    outFile.close();
+}
+
+void loadMatchResults() {
+    ifstream inFile("match_results.txt");
+    if (!inFile) {
+        cout << "Error opening file for reading!\n";
+        return;
+    }
+
+    matchResults.clear();
+    string line;
+    while (getline(inFile, line)) {
+        if (line == "-----") continue;
+
+        MatchResult result;
+        result.team1 = line;
+        getline(inFile, result.team2);
+        getline(inFile, result.winner);
+        matchResults.push_back(result);
+    }
+    inFile.close();
 }
 
 void match(){
     string team1Name, team2Name;
     cout << "Select Team 1: ";
     cin >> team1Name;
-    cout << "Select Team 2: ";
-    cin >> team2Name;
-
     Team *team1 = nullptr, *team2 = nullptr;
     for (auto &team : teams) {
         if (team.name == team1Name)
@@ -272,8 +376,21 @@ void match(){
     }
     if(!team1){
         cout<<team1Name<<" not found.";
+        system("pause");
         return;
     }
+    if (team1->coach.name.empty()) {
+        cout << team1->name << " does not have a manager.\n";
+        system("pause");
+        return;
+    }
+    if (team1->players.empty()) {
+        cout << team1->name << " does not have any players.\n";
+        system("pause");
+        return;
+    }
+    cout << "Select Team 2: ";
+    cin >> team2Name;
     for (auto &team : teams) {
         if (team.name == team2Name)
             team2 = &team;
@@ -282,10 +399,23 @@ void match(){
         cout<<team2Name<<" not found.\n";
         return;
     }
+    if (team2->coach.name.empty()) {
+        cout << team2->name << " does not have a manager.\n";
+        system("pause");
+        return;
+    }
+    
+    if (team2->players.empty()) {
+        cout << team2->name << " does not have any players.\n";
+        system("pause");
+        return;
+    }
+
+
     int avg1 = 0, avg2 = 0;
-    for (auto p : team1->players)
+    for (auto &p : team1->players)
         avg1 += p.strength;
-    for (auto p : team2->players)
+    for (auto &p : team2->players)
         avg2 += p.strength;
 
     avg1 /= team1->players.size();
@@ -310,7 +440,7 @@ void match(){
         team1->losses++;
     }
     saveTeams();
-
+    system("pause");
 }
 void viewAllTeamsandPlayers(){
     system("cls");
@@ -353,11 +483,12 @@ void ViewLeagueStandings(){
     }
 
     cout << "===== League Standings =====\n";
-    cout << "Rank\tTeam\tPoints\n";
+    cout << setw(8) << left << "Rank" << setw(20) << left << "Team" << setw(10) << left << "Wins" 
+         << setw(10) << left << "Losses" << setw(10) << left << "Points" << "\n";
     int rank = 1;
     for (const auto& team : sortedTeams) {
-        cout << rank << "\t" << team.name<<":" << "\t"<< team.wins<< " Wins,"
-        <<"\t"<< team.losses<< " Loses," << "\t" << team.points<<" Points" << "\n";
+        cout << setw(8) << left << rank << setw(20) << left << team.name << setw(10) << left << team.wins 
+        << setw(10) << left << team.losses << setw(10) << left << team.points << "\n";
         rank++;
     }
     cout << "-------------------------\n";
@@ -458,23 +589,26 @@ void teamManagement(void){
     {
     case 1:
         addTeam();
+        saveTeams();
         teamManagement();
-        break;
+        return;
     case 2:
         editTeam();
+        saveTeams();
         teamManagement();
-        break;
+        return;
     case 3:
         deleteTeam();
+        saveTeams();
         teamManagement();
-        break;
+        return;
     case 4:
         viewTeams();
         teamManagement();
-        break;
+        return;
     case 5:
         mainMenu();
-        break;
+        return;
     default:
         cout<<"wrong number, please enter again: ";
     }}while(true);
@@ -500,23 +634,26 @@ void playerManagement(void){
     {
     case 1:
         addPlayer();
+        saveTeams();
         playerManagement();
-        break;
+        return;
     case 2:
         editPlayer();
+        saveTeams();
         playerManagement();
-        break;
+        return;
     case 3:
         deletePlayer();
+        saveTeams();
         playerManagement();
-        break;
+        return;
     case 4:
         viewPlayers();
         playerManagement();
-        break;
+        return;
     case 5:
         mainMenu();
-        break;
+        return;
     default:
         cout<<"wrong number, please enter again: ";
     }}while(true);
@@ -538,15 +675,16 @@ void managersManagement(void){
     {
     case 1:
         addManager();
+        saveTeams();
         managersManagement();
-        break;
+        return;
     case 2:
         showManagerInfo();
         managersManagement();
-        break;
+        return;
     case 3:
         mainMenu();
-        break; 
+        return; 
     default:
         cout<<"wrong number, please enter again: ";
     }}while(true);
@@ -567,10 +705,13 @@ void matchSimulation(void){
     {
     case 1:
         match();
+        saveTeams();
+        saveMatchResults();
         matchSimulation();
-        break;
+        return;
     case 2:
         mainMenu();
+        return;
     default:
         cout<<"wrong number, please enter again: ";
     }}while(true);
@@ -594,18 +735,18 @@ void reports(void){
     case 1:
         viewAllTeamsandPlayers();
         reports();
-        break;
+        return;
     case 2:
         viewMatchResults();
         reports();
-        break;
+        return;
     case 3:
         ViewLeagueStandings();
         reports();
-        break;
+        return;
     case 4:
         mainMenu();
-        break;
+        return;
     default:
         cout<<"wrong number, please enter again: ";
     }}while(true);
@@ -629,19 +770,19 @@ void mainMenu(void){
     {
     case 1:
         teamManagement();
-        break;
+        return;
     case 2:
         playerManagement();
-        break;
+        return;
     case 3:
         managersManagement();
-        break;
+        return;
     case 4:
         matchSimulation();
-        break;
+        return;
     case 5:
         reports();
-        break;
+        return;
     case 6:
         return;
     default:
@@ -649,6 +790,8 @@ void mainMenu(void){
     }}while(true);
 }
 int main(){
+    loadTeams();
+    loadMatchResults();
     mainMenu();
 
     cout << "Game Over!";
