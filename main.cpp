@@ -491,7 +491,7 @@ void match() {
         return;
     }
 
-    int avg1 = 0, avg2 = 0;
+    double avg1 = 0, avg2 = 0;
     for (auto& p : team1->players)
         avg1 += p.strength;
     for (auto& p : team2->players)
@@ -504,7 +504,6 @@ void match() {
     double chance1 = avg1 / (avg1 + avg2);
     double chance2 = 1 - chance1;
     double randomNum = (1 + rand() % 99) / 100.0;
-
     string winner = (chance1 >= randomNum) ? team1->name : team2->name;
     cout << "Winner: " << winner << "\n";
 
