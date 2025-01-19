@@ -180,6 +180,18 @@ void viewTeams() {
 void addPlayer() {
     system("cls");
     cout << "===== Add a New Player =====\n";
+    cout << "===== list of Teams =====\n";
+    if (teams.empty()) {
+        cout << "No teams available!\n";
+        system("pause");
+        return;
+    }
+    int count=1;
+    for (const auto& team : teams) {
+        cout << count << ". " << team.name << "\n";
+        count++;
+    }
+    cout << "-------------------------\n";
     cout << "Enter team name to add player to: ";
     cin.ignore();
     string teamName;
@@ -612,6 +624,18 @@ void viewPlayers() {
 void addManager() {
     system("cls");
     cout << "===== Add a New Manager =====\n";
+    cout << "===== list of Teams =====\n";
+    if (teams.empty()) {
+        cout << "No teams available!\n";
+        system("pause");
+        return;
+    }
+    int count=1;
+    for (const auto& team : teams) {
+        cout << count << ". " << team.name << "\n";
+        count++;
+    }
+    cout << "-------------------------\n";
     cout << "Enter team name to add manager to: ";
     cin.ignore();
     string teamName;
@@ -636,6 +660,18 @@ void addManager() {
 void showManagerInfo() {
     system("cls");
     cout << "===== Show Manager Information =====\n";
+    cout << "===== list of Teams =====\n";
+    if (teams.empty()) {
+        cout << "No teams available!\n";
+        system("pause");
+        return;
+    }
+    int count=1;
+    for (const auto& team : teams) {
+        cout << count << ". " << team.name << "\n";
+        count++;
+    }
+    cout << "-------------------------\n";
     cout << "Enter team name: ";
     cin.ignore();
     string teamName;
