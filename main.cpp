@@ -430,8 +430,7 @@ void loadMatchResults() {
     }
     inFile.close();
 }
-
-void match(){
+void match() {
     string team1Name, team2Name;
     cout << "===== list of Teams =====\n";
     if (teams.empty()) {
@@ -439,21 +438,23 @@ void match(){
         system("pause");
         return;
     }
-    int count=1;
+    int count = 1;
     for (const auto& team : teams) {
         cout << count << ". " << team.name << "\n";
         count++;
     }
     cout << "-------------------------\n";
+
     cout << "Enter first team name : ";
-    getline(cin,team1Name);
-    Team *team1 = nullptr, *team2 = nullptr;
-    for (auto &team : teams) {
+    cin.ignore();
+    getline(cin, team1Name);
+    Team* team1 = nullptr, * team2 = nullptr;
+    for (auto& team : teams) {
         if (team.name == team1Name)
             team1 = &team;
     }
-    if(!team1){
-        cout<<team1Name<<" not found.\n";
+    if (!team1) {
+        cout << team1Name << " not found.\n";
         system("pause");
         return;
     }
@@ -468,13 +469,14 @@ void match(){
         return;
     }
     cout << "Enter second team name : ";
-    getline(cin,team2Name);
-    for (auto &team : teams) {
+    getline(cin, team2Name);
+    for (auto& team : teams) {
         if (team.name == team2Name)
             team2 = &team;
     }
-    if(!team2){
-        cout<<team2Name<<" not found.\n";
+    if (!team2) {
+        cout << team2Name << " not found.\n";
+        system("pause");
         return;
     }
     if (team2->coach.name.empty()) {
@@ -482,37 +484,37 @@ void match(){
         system("pause");
         return;
     }
-    
+
     if (team2->players.empty()) {
         cout << team2->name << " does not have any players.\n";
         system("pause");
         return;
     }
 
-
     int avg1 = 0, avg2 = 0;
-    for (auto &p : team1->players)
+    for (auto& p : team1->players)
         avg1 += p.strength;
-    for (auto &p : team2->players)
+    for (auto& p : team2->players)
         avg2 += p.strength;
 
     avg1 /= team1->players.size();
     avg2 /= team2->players.size();
 
     srand(time(0));
-    double chance1 = avg1 / (avg1+avg2);
-    double chance2 = 1-chance1;
-    double randomNum=(1+rand()%99)/100;
+    double chance1 = avg1 / (avg1 + avg2);
+    double chance2 = 1 - chance1;
+    double randomNum = (1 + rand() % 99) / 100.0;
 
     string winner = (chance1 >= randomNum) ? team1->name : team2->name;
     cout << "Winner: " << winner << "\n";
 
-    matchResults.push_back({team1->name, team2->name, winner});
+    matchResults.push_back({ team1->name, team2->name, winner });
     if (winner == team1->name) {
         team1->wins++;
         team1->points += 3;
         team2->losses++;
-    } else {
+    }
+    else {
         team2->wins++;
         team2->points += 3;
         team1->losses++;
@@ -520,6 +522,11 @@ void match(){
     saveTeams();
     system("pause");
 }
+
+
+
+
+
 void viewAllTeamsandPlayers(){
     system("cls");
     cout << "===== View All Teams and Players =====\n";
