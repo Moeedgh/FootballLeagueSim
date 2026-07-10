@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-﻿# ⚽ Football League Management System
+# ⚽ Football League Management System
 
 A complete **Football League Management System** developed in **C++** as the final project for the **Computer Basics and Programming** course.
 
