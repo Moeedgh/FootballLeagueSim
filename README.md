@@ -292,7 +292,7 @@ This project was developed for educational purposes as the final project of the 
 ---
 # 🙏 Acknowledgment
 
-Finally, I would like to express my sincere gratitude to my wonderful teammate, **Mr. Vazifeh Dan** ([@Shifu2006](https://github.com/Shifu2006)), for his valuable participation, cooperation, and support throughout the development of this project. His contributions and teamwork played an important role in the successful completion of this project.
+Finally, I would like to express my sincere gratitude to my wonderful teammate, **Mr.VazifehDan** ([@Shifu2006](https://github.com/Shifu2006)), for his valuable participation, cooperation, and support throughout the development of this project. His contributions and teamwork played an important role in the successful completion of this project.
 
 Thank you for your dedication and collaboration. ❤️
 ---
