@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿# ⚽ Football League Management System
 
 A complete **Football League Management System** developed in **C++** as the final project for the **Computer Basics and Programming** course.
@@ -292,3 +293,6 @@ This project was developed for educational purposes as the final project of the 
 ---
 
 ## ⭐ If you found this project useful, don't forget to leave a Star!
+=======
+﻿# FootballLeagueSim
+>>>>>>> 39e479a6ae5e6e23abc65a8983076435472ff318
